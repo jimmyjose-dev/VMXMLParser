@@ -6,7 +6,7 @@ NSXMLParser wrapper in Swift
 **Features:**
 >  1) Closure based 
 >  
->  2) Get array of dictionaries as response 
+>  2) Response as array of dictionaries 
 >  
 >  3) Unicode support
 
