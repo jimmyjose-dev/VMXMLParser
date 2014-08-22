@@ -14,7 +14,7 @@ NSXMLParser wrapper in Swift
 Sample code
 -----------
 
-    var url:String="http://www.varshylmobile.com/projects-1/iOS/sample.xml"        
+    var url:String="http://www.varshylmobile.com/projects-1/iOS/sample1.xml"        
     var xmlParser = VMXMLParser()
     xmlParser.parseXMLForUrl(url: url) { (tags, error) -> Void in
 

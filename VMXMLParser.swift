@@ -12,7 +12,10 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     
     
     private var activeElement = ""
+    private var previousElement = "-1"
+    private var previousElementValue = ""
     private var arrayFinalXML = NSMutableArray()
+    private var arrayFinalXML1 = NSMutableOrderedSet()
     private var dictFinalXML  = NSMutableDictionary()
     private var completionHandler:((tags:NSArray?, error:String?)->Void)?
     
@@ -55,10 +58,6 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
                 
                 if success {
                     
-                    if(self.dictFinalXML.count>0){
-                        self.arrayFinalXML.addObject(self.dictFinalXML)
-                    }
-                    
                     if(self.arrayFinalXML != nil){
                         if(self.completionHandler != nil){
                             self.completionHandler?(tags:self.arrayFinalXML,error:nil)
@@ -84,7 +83,19 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     
     internal func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
         
-        activeElement = ""
+        if(dictFinalXML.objectForKey(activeElement)){
+            
+            arrayFinalXML.addObject(dictFinalXML)
+            dictFinalXML = NSMutableDictionary()
+            
+        }else{
+            
+            dictFinalXML.setValue(previousElementValue, forKey: activeElement)
+        }
+        
+        previousElement = "-1"
+        previousElementValue = ""
+        
     }
     
     
@@ -95,16 +106,22 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
         
         str = str.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
-        if(dictFinalXML.objectForKey(activeElement)){
+        if((previousElement as NSString).isEqualToString("-1")){
             
-            arrayFinalXML.addObject(dictFinalXML)
-            dictFinalXML = NSMutableDictionary()
+            previousElement = activeElement
+            previousElementValue = str
             
-        }
-        
-        if(str.length > 0){
+        }else{
             
-            dictFinalXML.setValue(str, forKey: activeElement)
+            if((previousElement as NSString).isEqualToString(activeElement)){
+                
+                previousElementValue = previousElementValue + str
+                
+            }else{
+                
+                previousElement = activeElement
+                previousElementValue = str
+            }
         }
         
     }
