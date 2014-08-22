@@ -8,23 +8,64 @@
 
 import Foundation
 
+
 class VMXMLParser: NSObject,NSXMLParserDelegate{
     
-    
+    private let kParserError = "Parser Error"
     private var activeElement = ""
     private var previousElement = "-1"
     private var previousElementValue = ""
     private var arrayFinalXML = NSMutableArray()
-    private var arrayFinalXML1 = NSMutableOrderedSet()
     private var dictFinalXML  = NSMutableDictionary()
     private var completionHandler:((tags:NSArray?, error:String?)->Void)?
     
-    override init() {
+    
+    class func parseXMLForURL(url:NSURL,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
         
-        super.init()
+        VMXMLParser().initWithURL(url, completionHandler: completionHandler)
+        
     }
     
-    func parseXMLForUrl(#url:NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+    class func parseXMLForURLString(urlString:NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+        
+        VMXMLParser().initWithURLString(urlString, completionHandler: completionHandler)
+    }
+    
+    
+    class func parseXMLForData(data:NSData,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+        
+        VMXMLParser().initWithContentsOfData(data, completionHandler:completionHandler)
+        
+    }
+    
+    
+    private func initWithURL(url:NSURL,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil) -> AnyObject {
+        
+        parseXMLForUrl(url :url, completionHandler: completionHandler)
+        
+        return self
+        
+    }
+    
+    
+    
+    private func initWithURLString(urlString :NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil) -> AnyObject {
+        
+        let url = NSURL.URLWithString(urlString)
+        parseXMLForUrl(url :url, completionHandler: completionHandler)
+        
+        return self
+    }
+    
+    private func initWithContentsOfData(data:NSData,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil) -> AnyObject {
+        
+        initParserWith(data: data)
+        
+        return self
+        
+    }
+    
+    private func parseXMLForUrl(#url:NSURL,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
         
         self.completionHandler = completionHandler
         
@@ -32,9 +73,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
         
     }
     
-    private func beginParsingXMLForUrl(urlString:NSString){
-        
-        let url:NSURL = NSURL(string:urlString)
+    private func beginParsingXMLForUrl(url:NSURL){
         
         let request:NSURLRequest = NSURLRequest(URL:url)
         
@@ -46,32 +85,37 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
                 if(self.completionHandler != nil){
                     self.completionHandler?(tags:nil,error:error.localizedDescription)
                 }
-                println(error.userInfo)
-                println(error.localizedDescription)
                 
             }else{
                 
-                var parser = NSXMLParser(data: data)
-                parser.delegate = self
-                
-                var success:Bool = parser.parse()
-                
-                if success {
-                    
-                    if(self.arrayFinalXML != nil){
-                        if(self.completionHandler != nil){
-                            self.completionHandler?(tags:self.arrayFinalXML,error:nil)
-                        }
-                    }
-                    
-                } else {
-                    
-                    if(self.completionHandler != nil){
-                        self.completionHandler?(tags:nil,error:"parse failure!")
-                    }
-                }
+                self.initParserWith(data: data)
                 
             }})
+    }
+    
+    
+    private func initParserWith(#data:NSData){
+        
+        var parser = NSXMLParser(data: data)
+        parser.delegate = self
+        
+        var success:Bool = parser.parse()
+        
+        if success {
+            
+            if(self.arrayFinalXML != nil){
+                if(self.completionHandler != nil){
+                    self.completionHandler?(tags:self.arrayFinalXML,error:nil)
+                }
+            }
+            
+        } else {
+            
+            if(self.completionHandler != nil){
+                self.completionHandler?(tags:nil,error:kParserError)
+            }
+        }
+        
     }
     
     
@@ -100,7 +144,6 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     
     
     internal func parser(parser: NSXMLParser!, foundCharacters string: String!) {
-        
         
         var str = string as NSString
         
