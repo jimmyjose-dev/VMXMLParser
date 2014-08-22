@@ -63,11 +63,6 @@ Sample response
 >     } )
 
 
-Roadmap
----------------
- - Unicode character issue
-
-----------
 Contact Us
 ---------------
 
