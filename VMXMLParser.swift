@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+// Todo: Add documentation
 class VMXMLParser: NSObject,NSXMLParserDelegate{
     
     private let kParserError = "Parser Error"
@@ -19,20 +19,28 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     private var dictFinalXML  = NSMutableDictionary()
     private var completionHandler:((tags:NSArray?, error:String?)->Void)?
     
+    /**
+    Initializes a new parser with url of NSURL type.
     
-    class func parseXMLForURL(url:NSURL,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+    :param: url The url of xml file to be parsed
+    :param: completionHandler The completion handler
+    
+    :returns: Void.
+    */
+    
+    class func initParserWithURL(url:NSURL,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
         
         VMXMLParser().initWithURL(url, completionHandler: completionHandler)
         
     }
     
-    class func parseXMLForURLString(urlString:NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+    class func initParserWithURLString(urlString:NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
         
         VMXMLParser().initWithURLString(urlString, completionHandler: completionHandler)
     }
     
     
-    class func parseXMLForData(data:NSData,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+    class func initParserWithData(data:NSData,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
         
         VMXMLParser().initWithContentsOfData(data, completionHandler:completionHandler)
         

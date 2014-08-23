@@ -17,13 +17,14 @@ Sample code
 -----------
 
     var url:String="http://www.varshylmobile.com/projects-1/iOS/sample1.xml"
-    VMXMLParser.parseXMLForURLString(url, completionHandler: { (tags, error) -> Void in
+        VMXMLParser.initParserWithURLString(url, completionHandler: {
+            (tags, error) -> Void in
             if(error != nil){
                 println(error)
             }else{
                 println(tags!)
             }
-        })
+            })
 
 
 ----------
