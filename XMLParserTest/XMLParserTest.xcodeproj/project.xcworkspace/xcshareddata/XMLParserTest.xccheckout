@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B8FCED52-5C28-4B0B-9F98-E37B03C91CEE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>XMLParserTest</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>7FDBB664A8FB67266C35A33AAB191B24E69B3254</key>
+		<string>https://github.com/varshylmobile/VMXMLParser.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>XMLParserTest/XMLParserTest.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>7FDBB664A8FB67266C35A33AAB191B24E69B3254</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/varshylmobile/VMXMLParser.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>7FDBB664A8FB67266C35A33AAB191B24E69B3254</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7FDBB664A8FB67266C35A33AAB191B24E69B3254</string>
+			<key>IDESourceControlWCCName</key>
+			<string>VMXMLParser</string>
+		</dict>
+	</array>
+</dict>
+</plist>

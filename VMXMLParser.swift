@@ -19,6 +19,10 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     private var dictFinalXML  = NSMutableDictionary()
     private var completionHandler:((tags:NSArray?, error:String?)->Void)?
     
+    var lameMode = true
+    
+    var reoccuringTag:NSString = ""
+    
     /**
     Initializes a new parser with url of NSURL type.
     
@@ -27,6 +31,33 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     
     :returns: Void.
     */
+    
+    override init() {
+        
+        super.init()
+        
+    }
+    
+    func parseXMLFromURL(url:NSURL,takeChildOfTag:NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+        
+        self.reoccuringTag = takeChildOfTag
+        VMXMLParser().initWithURL(url, completionHandler: completionHandler)
+        
+    }
+    
+    func parseXMLFromURLString(urlString:NSString,takeChildOfTag:NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+        self.reoccuringTag = takeChildOfTag
+        
+        initWithURLString(urlString, completionHandler: completionHandler)
+    }
+    
+    
+    func parseXMLFromData(data:NSData,takeChildOfTag:NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+        self.reoccuringTag = takeChildOfTag
+        initWithContentsOfData(data, completionHandler:completionHandler)
+        
+    }
+    
     
     class func initParserWithURL(url:NSURL,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
         
@@ -89,7 +120,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
         
         NSURLConnection.sendAsynchronousRequest(request,queue:queue,completionHandler:{response,data,error in
             
-            if(error){
+            if(error != nil){
                 if(self.completionHandler != nil){
                     self.completionHandler?(tags:nil,error:error.localizedDescription)
                 }
@@ -111,7 +142,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
         
         if success {
             
-            if(self.arrayFinalXML != nil){
+            if(self.arrayFinalXML.count > 0){
                 if(self.completionHandler != nil){
                     self.completionHandler?(tags:self.arrayFinalXML,error:nil)
                 }
@@ -130,19 +161,39 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     internal func parser(parser: NSXMLParser!,didStartElement elementName: String!, namespaceURI: String!, qualifiedName : String!, attributes attributeDict: NSDictionary!) {
         
         activeElement = elementName;
+        
+        if(reoccuringTag.isEqualToString(elementName)){
+            
+            dictFinalXML = NSMutableDictionary()
+        }
     }
     
     
     internal func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
         
-        if(dictFinalXML.objectForKey(activeElement)){
-            
-            arrayFinalXML.addObject(dictFinalXML)
-            dictFinalXML = NSMutableDictionary()
-            
+        if(reoccuringTag.length == 0){
+            if((dictFinalXML.objectForKey(activeElement)) != nil){
+                
+                arrayFinalXML.addObject(dictFinalXML)
+                dictFinalXML = NSMutableDictionary()
+                
+            }else{
+                
+                dictFinalXML.setValue(previousElementValue, forKey: activeElement)
+            }
         }else{
+            //println(elementName)
+            if(reoccuringTag.isEqualToString(elementName)){
+                
+                arrayFinalXML.addObject(dictFinalXML)
+                dictFinalXML = NSMutableDictionary()
+                
+            }else{
+                
+                dictFinalXML.setValue(previousElementValue, forKey: activeElement)
+                
+            }
             
-            dictFinalXML.setValue(previousElementValue, forKey: activeElement)
         }
         
         previousElement = "-1"
