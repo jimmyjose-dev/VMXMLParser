@@ -61,7 +61,7 @@ Sample response
 >         description = "I should have downloaded some sample xml file";
 >         id = 5;
 >         location = Australia;
->         name = "Varshyl Tech";
+>         name = "Varshyl Mobile XML Parser";
 >     } )
 
 
