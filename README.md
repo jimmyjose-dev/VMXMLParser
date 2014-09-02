@@ -10,6 +10,10 @@ NSXMLParser wrapper in Swift
 >  
 >  3) Unicode support
 
+Screenshot
+==========
+
+![Screenshot](https://s3.amazonaws.com/cocoacontrols_production/uploads/control_image/image/4598/iOS_Simulator_Screen_Shot_30-Aug-2014_12.28.48_am.png)
 
 
 
