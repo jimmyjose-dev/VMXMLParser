@@ -106,7 +106,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     
     private func initWithURLString(urlString :NSString,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil) -> AnyObject {
         
-        let url = NSURL.URLWithString(urlString)
+        let url = NSURL(string: urlString as String)!
         parseXMLForUrl(url :url, completionHandler: completionHandler)
         
         return self
@@ -173,9 +173,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
         
     }
     
-    
-    internal func parser(parser: NSXMLParser!,didStartElement elementName: String!, namespaceURI: String!, qualifiedName : String!, attributes attributeDict: NSDictionary!) {
-        
+    internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
         activeElement = elementName;
         
         if(reoccuringTag.isEqualToString(elementName)){
@@ -184,8 +182,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
         }
     }
     
-    
-    internal func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
+    internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
         if(reoccuringTag.length == 0){
             if((dictFinalXML.objectForKey(activeElement)) != nil){
@@ -218,34 +215,33 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     }
     
     
-    internal func parser(parser: NSXMLParser!, foundCharacters string: String!) {
-        
-        var str = string as NSString
-        
-        str = str.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        
-        if((previousElement as NSString).isEqualToString("-1")){
+    internal func parser(parser: NSXMLParser, foundCharacters string: String?) {
+
+        if var str = string as NSString? {
+            str = str.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             
-            previousElement = activeElement
-            previousElementValue = str
-            
-        }else{
-            
-            if((previousElement as NSString).isEqualToString(activeElement)){
+            if((previousElement as NSString).isEqualToString("-1")){
                 
-                previousElementValue = previousElementValue + str
+                previousElement = activeElement
+                previousElementValue = str as String
                 
             }else{
                 
-                previousElement = activeElement
-                previousElementValue = str
-            }
+                if((previousElement as NSString).isEqualToString(activeElement)){
+                    
+                    previousElementValue = previousElementValue + (str as String)
+                    
+                }else{
+                    
+                    previousElement = activeElement
+                    previousElementValue = str as String
+                }
+            }   
         }
-        
     }
     
     
-    internal func parser(parser: NSXMLParser!, parseErrorOccurred parseError: NSError!) {
+    internal func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         if(self.completionHandler != nil){
             self.completionHandler?(tags:nil,error:parseError.localizedDescription)
         }

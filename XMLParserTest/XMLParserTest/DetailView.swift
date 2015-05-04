@@ -18,25 +18,16 @@ class DetailView : UIViewController{
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        textView?.text = text
-        
+        textView?.text = text as String
     }
     
-    @IBAction func showInBrowser(){
-        
-        
+    @IBAction func showInBrowser() {
         self.performSegueWithIdentifier("Webview", sender: nil)
-        
-        
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        
-        
-        var webViewController = segue.destinationViewController as WebView
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        var webViewController = segue.destinationViewController as! WebView
         webViewController.title = "WebView"
         webViewController.urlString = urlString!
-        
-        
     }
 }

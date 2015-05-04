@@ -72,42 +72,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int{
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int{
         
         return 1
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section:    Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section:    Int) -> Int {
         
         return tagsArray.count
     }
     
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
         
         var idxForValue:Int = indexPath.row
         
-        var dictTable:NSDictionary = tagsArray[idxForValue] as NSDictionary
+        var dictTable:NSDictionary = tagsArray[idxForValue] as! NSDictionary
         
-        var title = dictTable["title"] as NSString?
-        var subtitle = dictTable["pubDate"] as NSString?
-        
-        if(title == nil){
-            
-            title = ""
-        }
-        if(subtitle == nil){
-            
-            subtitle = ""
-        }
+        var title = dictTable["title"] as? String
+        var subtitle = dictTable["pubDate"] as? String
         
         
-        cell.textLabel.text = title
-        cell.detailTextLabel.text = subtitle
+        cell.textLabel!.text = title ?? ""
+        cell.detailTextLabel!.text = subtitle ?? ""
         cell.backgroundColor = UIColor.clearColor()
-        cell.textLabel.font = UIFont(name: "Helvetica Neue Light", size: 15.0)
+        cell.textLabel!.font = UIFont(name: "Helvetica Neue Light", size: 15.0)
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
@@ -116,7 +107,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
@@ -126,16 +117,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
-        var detailView = segue.destinationViewController as DetailView
+        var detailView = segue.destinationViewController as! DetailView
         
         detailView.title = "Detail"
         
-        var dictTable:NSDictionary = tagsArray[selectedIndex] as NSDictionary
+        var dictTable:NSDictionary = tagsArray[selectedIndex] as! NSDictionary
         
-        var description = dictTable["description"] as NSString?
-        var link = dictTable["link"] as NSString?
+        var description = dictTable["description"] as! NSString?
+        var link = dictTable["link"] as! NSString?
         
         detailView.text = description!
         detailView.urlString = link!
