@@ -27,17 +27,17 @@ class WebView : UIViewController,UIWebViewDelegate{
         activityIndicator.startAnimating()
         
         webView?.delegate = self
-        webView?.loadRequest(NSURLRequest(URL: NSURL.URLWithString(urlString)))
+        webView?.loadRequest(NSURLRequest(URL: NSURL(string: urlString as! String)!))
         
         
     }
     
-    func webViewDidFinishLoad(webView: UIWebView!){
+    func webViewDidFinishLoad(webView: UIWebView){
         
         activityIndicator.stopAnimating()
     }
     
-    func webView(webView: UIWebView!, didFailLoadWithError error: NSError!){
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError){
         
         activityIndicator.stopAnimating()
         
