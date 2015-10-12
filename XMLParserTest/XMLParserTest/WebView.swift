@@ -27,7 +27,7 @@ class WebView : UIViewController,UIWebViewDelegate{
         activityIndicator.startAnimating()
         
         webView?.delegate = self
-        webView?.loadRequest(NSURLRequest(URL: NSURL(string: urlString as! String)!))
+        webView?.loadRequest(NSURLRequest(URL: NSURL(string: urlString as String)!))
         
         
     }
@@ -37,7 +37,7 @@ class WebView : UIViewController,UIWebViewDelegate{
         activityIndicator.stopAnimating()
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError){
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?){
         
         activityIndicator.stopAnimating()
         

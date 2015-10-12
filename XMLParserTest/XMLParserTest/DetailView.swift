@@ -26,7 +26,7 @@ class DetailView : UIViewController{
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        var webViewController = segue.destinationViewController as! WebView
+        let webViewController = segue.destinationViewController as! WebView
         webViewController.title = "WebView"
         webViewController.urlString = urlString!
     }

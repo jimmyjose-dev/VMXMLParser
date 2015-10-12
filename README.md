@@ -1,7 +1,7 @@
 VMXMLParser
 =====================
 
-NSXMLParser wrapper in Swift
+NSXMLParser wrapper in Swift 2.0
 ----------------------------------
 **Features:**
 >  1) Closure based 

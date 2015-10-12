@@ -42,10 +42,10 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     /**
     Initializes a new parser with url of NSURL type.
     
-    :param: url The url of xml file to be parsed
-    :param: completionHandler The completion handler
+    - parameter url: The url of xml file to be parsed
+    - parameter completionHandler: The completion handler
     
-    :returns: Void.
+    - returns: Void.
     */
     
     override init() {
@@ -120,7 +120,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
         
     }
     
-    private func parseXMLForUrl(#url:NSURL,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
+    private func parseXMLForUrl(url url:NSURL,completionHandler:((tags:NSArray?, error:String?)->Void)? = nil){
         
         self.completionHandler = completionHandler
         
@@ -138,23 +138,23 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
             
             if(error != nil){
                 if(self.completionHandler != nil){
-                    self.completionHandler?(tags:nil,error:error.localizedDescription)
+                    self.completionHandler?(tags:nil,error:error!.localizedDescription)
                 }
                 
             }else{
                 
-                self.initParserWith(data: data)
+                self.initParserWith(data: data!)
                 
             }})
     }
     
     
-    private func initParserWith(#data:NSData){
+    private func initParserWith(data data:NSData){
         
-        var parser = NSXMLParser(data: data)
+        let parser = NSXMLParser(data: data)
         parser.delegate = self
         
-        var success:Bool = parser.parse()
+        let success:Bool = parser.parse()
         
         if success {
             
@@ -173,7 +173,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
         
     }
     
-    internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+    internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         activeElement = elementName;
         
         if(reoccuringTag.isEqualToString(elementName)){
@@ -215,7 +215,7 @@ class VMXMLParser: NSObject,NSXMLParserDelegate{
     }
     
     
-    internal func parser(parser: NSXMLParser, foundCharacters string: String?) {
+    internal func parser(parser: NSXMLParser, foundCharacters string: String) {
 
         if var str = string as NSString? {
             str = str.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

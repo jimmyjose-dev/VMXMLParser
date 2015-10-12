@@ -31,7 +31,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         
-        var url:String="http://images.apple.com/main/rss/hotnews/hotnews.rss"
+        let url:String="http://images.apple.com/main/rss/hotnews/hotnews.rss"
         
         /*
         VMXMLParser.initParserWithURLString(url, completionHandler: {
@@ -54,7 +54,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         VMXMLParser().parseXMLFromURLString(url, takeChildOfTag: tagName) { (tags, error) -> Void in
             
             if(error != nil){
-                println(error!)
+                print(error!)
             }else{
                 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -87,12 +87,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
         
-        var idxForValue:Int = indexPath.row
+        let idxForValue:Int = indexPath.row
         
-        var dictTable:NSDictionary = tagsArray[idxForValue] as! NSDictionary
+        let dictTable:NSDictionary = tagsArray[idxForValue] as! NSDictionary
         
-        var title = dictTable["title"] as? String
-        var subtitle = dictTable["pubDate"] as? String
+        let title = dictTable["title"] as? String
+        let subtitle = dictTable["pubDate"] as? String
         
         
         cell.textLabel!.text = title ?? ""
@@ -119,14 +119,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
-        var detailView = segue.destinationViewController as! DetailView
+        let detailView = segue.destinationViewController as! DetailView
         
         detailView.title = "Detail"
         
-        var dictTable:NSDictionary = tagsArray[selectedIndex] as! NSDictionary
+        let dictTable:NSDictionary = tagsArray[selectedIndex] as! NSDictionary
         
-        var description = dictTable["description"] as! NSString?
-        var link = dictTable["link"] as! NSString?
+        let description = dictTable["description"] as! NSString?
+        let link = dictTable["link"] as! NSString?
         
         detailView.text = description!
         detailView.urlString = link!
